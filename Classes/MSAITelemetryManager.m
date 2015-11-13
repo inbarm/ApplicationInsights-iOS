@@ -94,7 +94,8 @@ static char *const MSAICommonPropertiesQueue = "com.microsoft.ApplicationInsight
                                                    queue:NSOperationQueue.mainQueue
                                               usingBlock:^(NSNotification *notification) {
                                                 typeof(self) strongSelf = weakSelf;
-                                                [strongSelf trackSessionStart];
+                                                // Session tracking is done by the Combined HA SDK
+                                                //[strongSelf trackSessionStart];
                                               }];
   }
   if(!_sessionEndedObserver) {
@@ -103,8 +104,8 @@ static char *const MSAICommonPropertiesQueue = "com.microsoft.ApplicationInsight
                                                  queue:NSOperationQueue.mainQueue
                                             usingBlock:^(NSNotification *notification) {
                                               typeof(self) strongSelf = weakSelf;
-
-                                              [strongSelf trackSessionEnd];
+                                              // Session tracking is done by the Combined HA SDK
+                                              //[strongSelf trackSessionEnd];
                                             }];
   }
 }
