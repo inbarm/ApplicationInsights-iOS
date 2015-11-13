@@ -31,6 +31,7 @@ NSString *const kMSAIInstrumentationKey = @"MSAIInstrumentationKey";
   BOOL _managersInitialized;
   MSAIAppClient *_appClient;
   MSAIContext *_appContext;
+  MSAITelemetryContext *_telemetryContext;
 }
 
 #pragma mark - Shared instance
@@ -165,8 +166,8 @@ NSString *const kMSAIInstrumentationKey = @"MSAIInstrumentationKey";
   if (_validInstrumentationKey) {
     // Configure Http-client and send persisted data
     
-    MSAITelemetryContext *telemetryContext = [[MSAITelemetryContext alloc] initWithAppContext:_appContext];
-    [[MSAIEnvelopeManager sharedManager] configureWithTelemetryContext:telemetryContext];
+    _telemetryContext = [[MSAITelemetryContext alloc] initWithAppContext:_appContext];
+    [[MSAIEnvelopeManager sharedManager] configureWithTelemetryContext:_telemetryContext];
     
     [[MSAISender sharedSender] configureWithAppClient:[self appClient]];
     
@@ -286,6 +287,30 @@ NSString *const kMSAIInstrumentationKey = @"MSAIInstrumentationKey";
 - (void)renewSessionWithId:(NSString *)sessionId {
   [self setAutoSessionManagementDisabled:YES];
   [[MSAIContextHelper sharedInstance] renewSessionWithId:sessionId];
+}
+
+/**
+ *  Sets the device Id.
+ *
+ *  @param deviceId The device Id for this device
+ *
+ *  @warning This is an exclusive adjustment and is not meant to be merged at any time.
+ */
++ (void)setDeviceId:(NSString *)deviceId {
+  [[self sharedInstance] setDeviceId:deviceId];
+}
+
+/**
+ *  Sets the device Id.
+ *
+ *  @param deviceId The device Id for this device
+ *
+ *  @warning This is an exclusive adjustment and is not meant to be merged at any time.
+ */
+- (void)setDeviceId:(NSString *)deviceId {
+  if(_telemetryContext && deviceId) {
+    _telemetryContext.device.deviceId = deviceId;
+  }
 }
 
 #pragma mark - Helper

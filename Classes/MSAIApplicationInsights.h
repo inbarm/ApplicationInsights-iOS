@@ -204,6 +204,24 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)renewSessionWithId:(NSString *)sessionId;
 
+/**
+ *  Sets the device Id.
+ *
+ *  @param deviceId The device Id for this device
+ *
+ *  @warning This is an exclusive adjustment and is not meant to be merged at any time.
+ */
++ (void)setDeviceId:(NSString *)deviceId;
+
+/**
+ *  Sets the device Id.
+ *
+ *  @param deviceId The device Id for this device
+ *
+ *  @warning This is an exclusive adjustment and is not meant to be merged at any time.
+ */
+- (void)setDeviceId:(NSString *)deviceId;
+
 ///-----------------------------------------------------------------------------
 /// @name Environment
 ///-----------------------------------------------------------------------------
